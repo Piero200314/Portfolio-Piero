@@ -1,0 +1,2 @@
+Coloca aquí las capturas reales de tus proyectos.
+Añade image: '/proyectos/nombre-del-archivo.jpg' al proyecto en src/data/portfolio.js.

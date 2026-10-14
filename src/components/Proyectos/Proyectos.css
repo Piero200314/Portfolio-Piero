@@ -1,0 +1,356 @@
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.project-card {
+  background: #0f1520;
+  border: 1px solid #202c40;
+  border-radius: 9px;
+  overflow: hidden;
+  transition:
+    transform 0.3s,
+    border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: #00d8ff50;
+}
+.project-visual {
+  height: 205px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(130deg, #101c2c, #163452);
+}
+.visual-label {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #9fb2c5;
+  display: block;
+}
+.project-image {
+  width: 100%;
+  height: 205px;
+  object-fit: cover;
+}
+.school-preview {
+  margin-top: 24px;
+  background: #0c1525;
+  border: 1px solid #28415d;
+  border-radius: 6px;
+  padding: 15px;
+  transform: rotate(-3deg);
+  box-shadow: 0 20px 30px #0004;
+}
+.school-title {
+  display: flex;
+  justify-content: space-between;
+  color: #f2f4f8;
+  font-size: 12px;
+  align-items: center;
+}
+.school-title i {
+  font-size: 22px;
+  color: #61dafb;
+}
+.school-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+.school-preview-grid > span {
+  background: #18273d;
+  padding: 14px 9px;
+  font-size: 9px;
+  color: #9aaac0;
+  line-height: 1.7;
+  border-radius: 4px;
+}
+.school-preview-grid b {
+  color: #f2f4f8;
+  font-size: 11px;
+  font-weight: 500;
+}
+.visual-fitcoach {
+  background: linear-gradient(145deg, #121a27, #25323f);
+}
+.fit-preview {
+  margin-top: 28px;
+  border-left: 2px solid #00d8ff;
+  padding-left: 20px;
+}
+.fit-brand {
+  font-size: 10px;
+  color: #00d8ff;
+  letter-spacing: 3px;
+}
+.fit-preview strong {
+  display: block;
+  margin-top: 11px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 31px;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  font-weight: 500;
+}
+.fit-line {
+  display: block;
+  width: 34px;
+  height: 2px;
+  background: #00d8ff;
+  margin-top: 15px;
+}
+.visual-placas {
+  background: linear-gradient(135deg, #0e1927, #17364a);
+}
+.plate-preview {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.plate-frame {
+  border: 1px solid #00d8ff66;
+  padding: 6px;
+  border-radius: 4px;
+  box-shadow: 0 0 26px #00d8ff09;
+}
+.plate-frame span {
+  border: 1px solid #73889e;
+  border-radius: 3px;
+  display: block;
+  padding: 8px 27px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 32px;
+  letter-spacing: 7px;
+  color: #d3e2ed;
+  background: #1d3446;
+}
+.plate-caption {
+  color: #88acc1;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  margin-top: 18px;
+}
+.plate-scan {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  top: 62px;
+  background: #00d8ff;
+  box-shadow: 0 0 12px #00d8ff;
+}
+.project-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.project-meta > span:first-child {
+  color: #8492a5;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+.project-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #a9c8f3;
+  font-size: 9px;
+  white-space: nowrap;
+}
+.project-status .pf-icon {
+  width: 11px;
+  height: 11px;
+}
+.project-status.done {
+  color: #70d8ef;
+}
+.project-body h3 {
+  font-size: 21px;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.project-body > p {
+  font-size: 12px;
+  color: #a5adba;
+  line-height: 1.8;
+  min-height: 86px;
+  margin-bottom: 20px;
+}
+.project-technologies {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.project-technologies .tech-logo {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 9px;
+  color: #a5adba;
+}
+.project-technologies i {
+  font-size: 15px;
+}
+.project-links {
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid #202c40;
+  padding-top: 18px;
+  margin-top: auto;
+}
+.project-links a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #b5c3d5;
+  font-size: 11px;
+}
+.project-links a:first-child {
+  color: #00d8ff;
+}
+.project-links a:hover {
+  color: #fff;
+}
+.project-links .pf-icon {
+  width: 12px;
+  height: 12px;
+}
+.project-links i {
+  font-size: 13px;
+}
+.project-links > span {
+  font-size: 10px;
+  color: #8292a5;
+}
+.projects-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-top: 28px;
+}
+.projects-bottom > span {
+  font-size: 11px;
+  color: #8292a5;
+}
+.projects-bottom > a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #00d8ff;
+}
+.upcoming-empty {
+  padding: 65px 24px;
+  border: 1px dashed #28415d;
+  text-align: center;
+  border-radius: 8px;
+  background: #0c1420;
+}
+.upcoming-empty > .pf-icon {
+  color: #00d8ff;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 20px;
+}
+.upcoming-empty h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+@media (max-width: 1050px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .project-body > p {
+    min-height: 66px;
+  }
+}
+@media (max-width: 700px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  .project-visual,
+  .project-image {
+    height: 230px;
+  }
+  .project-body > p {
+    min-height: 0;
+    font-size: 13px;
+  }
+  .project-meta > span:first-child {
+    font-size: 9px;
+  }
+  .project-status {
+    font-size: 10px;
+  }
+  .project-technologies .tech-logo {
+    font-size: 10px;
+  }
+  .projects-bottom {
+    align-items: start;
+    flex-direction: column;
+  }
+  .project-body h3 {
+    font-size: 24px;
+  }
+  .project-links a {
+    font-size: 12px;
+  }
+  .school-preview {
+    max-width: 280px;
+    margin-inline: auto;
+  }
+  .fit-preview {
+    margin-top: 36px;
+  }
+  .fit-preview strong {
+    font-size: 40px;
+  }
+  .plate-preview {
+    height: 170px;
+  }
+  .plate-scan {
+    top: 76px;
+  }
+}
+
+.generic-project-preview {
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+}
+.generic-project-preview .pf-icon {
+  width: 36px;
+  height: 36px;
+  color: #00d8ff;
+}
+.generic-project-preview strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 23px;
+  font-weight: 500;
+}

@@ -1,0 +1,118 @@
+.skills-section {
+  background: #0b1019;
+  border-block: 1px solid #162234;
+}
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.filter-row button {
+  border: 1px solid transparent;
+  background: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 12px;
+  color: #a5adba;
+  min-height: 42px;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.filter-row button:hover {
+  color: #f2f4f8;
+  background: #162132;
+}
+.filter-row button.selected {
+  background: #00d8ff0b;
+  color: #00d8ff;
+  border-color: #00d8ff40;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+.skill-item {
+  background: #101722;
+  border: 1px solid #1d2b3d;
+  padding: 26px 10px 23px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 8px;
+  transition:
+    transform 0.3s,
+    border-color 0.3s;
+}
+.skill-item:hover {
+  transform: translateY(-5px);
+  border-color: #00d8ff6b;
+}
+.skill-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #0a111d;
+  border: 1px solid #24354b;
+  margin-bottom: 17px;
+}
+.skill-circle i {
+  font-size: 29px;
+}
+.skill-item h3 {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+.skill-item p {
+  color: #a5adba;
+  font-size: 10px;
+  line-height: 1.5;
+  margin: 0;
+}
+.skills-note {
+  color: #a5adba;
+  font-size: 12px;
+  margin: 26px 0 0;
+  line-height: 1.7;
+}
+.devicon-github-original.colored {
+  color: #d7dce5 !important;
+}
+@media (max-width: 1000px) {
+  .skills-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .skill-item {
+    padding: 22px 6px;
+  }
+  .skill-circle {
+    width: 50px;
+    height: 50px;
+  }
+  .skill-circle i {
+    font-size: 26px;
+  }
+  .skill-item h3 {
+    font-size: 12px;
+  }
+  .filter-row button {
+    padding: 10px 12px;
+  }
+}
+@media (max-width: 390px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

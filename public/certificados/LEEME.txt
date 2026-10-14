@@ -1,0 +1,2 @@
+Coloca aquí tus certificados reales en PDF y sus imágenes de vista previa.
+Luego registra las rutas en src/data/portfolio.js, dentro del arreglo certificates.

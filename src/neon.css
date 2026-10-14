@@ -1,0 +1,73 @@
+/* Marcos luminosos: celeste, azul eléctrico y azul oscuro. */
+@property --frame-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes frame-orbit {
+  to { --frame-angle: 360deg; }
+}
+.project-card.project-card,
+.certificate-card.certificate-card {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background:
+    linear-gradient(145deg, #111c2b, #0c121d) padding-box,
+    conic-gradient(from var(--frame-angle), #173553, #2563eb, #71eaff, #00baff, #173553 70%, #173553) border-box;
+  animation: frame-orbit 9s linear infinite;
+  box-shadow: 0 8px 28px #0003, 0 0 16px #009dff12;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.project-card:nth-child(even),
+.certificate-card:nth-child(even) { animation-delay: -4.5s; }
+.project-card:focus-within,
+.certificate-card:focus-within {
+  box-shadow: 0 0 0 3px #00d8ff30, 0 12px 40px #007cff25;
+}
+.certificate-card { display: flex; flex-direction: column; }
+.certificate-body { display: flex; flex-direction: column; flex: 1; }
+.certificate-body > a {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 12px 16px;
+  min-height: 44px;
+  border: 1px solid #277394;
+  border-radius: 8px;
+  background: #00c8ff0b;
+  transition: background .2s ease, color .2s ease;
+}
+.certificate-body > a:hover { background: #00c8ff20; color: #d3f7ff; }
+.certificate-tech:empty { display: none; }
+.certificate-body h3 { font-size: 18px; }
+.certificate-card > img {
+  height: auto;
+  aspect-ratio: 1.48;
+  background: #f5f7fa;
+  padding: 10px;
+}
+.project-links a { min-height: 44px; }
+.project-status {
+  padding: 6px 8px;
+  border-radius: 20px;
+  background: #167bd018;
+  border: 1px solid #34689255;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .project-card.project-card:hover,
+  .certificate-card.certificate-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px #0005, 0 0 25px #00bfff26;
+  }
+}
+@media (min-width: 701px) and (max-width: 1050px) {
+  .certificate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-card.project-card,
+  .certificate-card.certificate-card {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}
