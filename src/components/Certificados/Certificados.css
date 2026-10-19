@@ -136,3 +136,28 @@
 }
 
 .certificate-profile-link{display:inline-flex;align-items:center;gap:10px;color:#00d8ff;font-size:12px;white-space:nowrap;margin-left:auto}.certificate-profile-link .pf-icon{width:15px;height:15px}@media(max-width:700px){.certificate-profile-link{margin-left:90px}}
+
+.certificate-image-button { position: relative; display: block; width: 100%; padding: 10px; border: 0; background: #f5f7fa; cursor: zoom-in; }
+.certificate-image-button img { width: 100%; aspect-ratio: 1.42; object-fit: contain; display: block; }
+.certificate-image-button > span { position: absolute; right: 12px; bottom: 12px; padding: 6px 10px; background: #0b152be8; color: #fff; border-radius: 5px; font-size: 11px; }
+.certificate-open { display: inline-flex; align-items: center; gap: 12px; margin-top: auto; align-self: flex-start; padding: 12px 16px; min-height: 44px; border: 1px solid #277394; border-radius: 8px; background: #00c8ff0b; color: #00d8ff; font-size: 12px; cursor: pointer; }
+.certificate-open:hover { background: #00c8ff20; }
+.certificate-dialog { width: min(1200px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0; border: 1px solid #315572; border-radius: 16px; background: #0e1726; color: #eef5ff; overflow: auto; }
+.certificate-dialog::backdrop { background: #020611df; backdrop-filter: blur(8px); }
+.certificate-dialog-panel { display: flex; flex-direction: column; max-height: calc(100dvh - 36px); }
+.certificate-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 24px; }
+.certificate-dialog-header p { color: #7de9ff; font-size: 11px; margin: 0 0 6px; }
+.certificate-dialog-header h2 { margin: 0; font-size: 18px; line-height: 1.4; }
+.certificate-dialog button, .certificate-dialog-footer a { min-height: 44px; border: 1px solid #365370; border-radius: 8px; padding: 10px 14px; color: #ecf8ff; background: #17283b; cursor: pointer; }
+.certificate-dialog-view { background: #dce2e8; overflow: auto; min-height: 0; padding: 12px; }
+.certificate-dialog-view img { display: block; width: 100%; max-height: calc(100dvh - 220px); object-fit: contain; margin: auto; }
+.certificate-dialog-view.is-zoomed img { width: 200%; max-width: none; max-height: none; }
+.certificate-dialog-footer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 24px; }
+.certificate-dialog-footer span { color: #a5adba; font-size: 11px; margin-left: auto; }
+button:focus-visible, .certificate-dialog a:focus-visible { outline: 3px solid #70eaff; outline-offset: 3px; }
+@media(max-width: 700px) {
+ .certificate-dialog-header, .certificate-dialog-footer { padding: 14px; }
+ .certificate-dialog-header h2 { font-size: 15px; }
+ .certificate-dialog-footer span { display: none; }
+ .certificate-dialog-view { padding: 4px; }
+}

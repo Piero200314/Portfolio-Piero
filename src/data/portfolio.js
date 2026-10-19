@@ -122,13 +122,53 @@ export const projects = [
 
 // Certificados personales; archivos en public/certificados.
 export const certificates = [
+{
+  "id": "oracle-sql",
+  "title": "Database Programming with SQL - Español",
+  "issuer": "Oracle Academy",
+  "date": "14/10/2026",
+  "file": "/certificados/oracle-sql.pdf",
+  "image": "/certificados/oracle-sql-hd.png",
+  "tech": []
+},
+{
+  "id": "oracle-java-fundamentals",
+  "title": "Java Fundamentals - Español",
+  "issuer": "Oracle Academy",
+  "date": "19/10/2026",
+  "file": "/certificados/oracle-java-fundamentals.pdf",
+  "image": "/certificados/oracle-java-fundamentals-hd.png",
+  "tech": [
+    "java"
+  ]
+},
+{
+  "id": "oracle-java-foundations",
+  "title": "Java Foundations - Español",
+  "issuer": "Oracle Academy",
+  "date": "14/10/2026",
+  "file": "/certificados/oracle-java-foundations.pdf",
+  "image": "/certificados/oracle-java-foundations-hd.png",
+  "tech": [
+    "java"
+  ]
+},
+{
+  "id": "oracle-database-design",
+  "title": "Database Design - Español",
+  "issuer": "Oracle Academy",
+  "date": "14/10/2026",
+  "file": "/certificados/oracle-database-design.pdf",
+  "image": "/certificados/oracle-database-design-hd.png",
+  "tech": []
+},
   {
     "id": "python",
     "title": "Fundamentos de Python 1",
     "issuer": "SENATI · Cisco Networking Academy",
     "date": "23/11/2024",
     "file": "/certificados/python.pdf",
-    "image": "/certificados/python.png",
+    "image": "/certificados/python-hd.png",
     "tech": [
       "python"
     ]
@@ -139,7 +179,7 @@ export const certificates = [
     "issuer": "SENATI · Cisco Networking Academy",
     "date": "02/11/2024",
     "file": "/certificados/datos.pdf",
-    "image": "/certificados/datos.png",
+    "image": "/certificados/datos-hd.png",
     "tech": []
   },
   {
@@ -148,7 +188,7 @@ export const certificates = [
     "issuer": "SENATI · Cisco Networking Academy",
     "date": "26/10/2024",
     "file": "/certificados/hardware.pdf",
-    "image": "/certificados/hardware.png",
+    "image": "/certificados/hardware-hd.png",
     "tech": []
   },
   {
@@ -157,7 +197,7 @@ export const certificates = [
     "issuer": "SENATI · Cisco Networking Academy",
     "date": "17/10/2024",
     "file": "/certificados/redes.pdf",
-    "image": "/certificados/redes.png",
+    "image": "/certificados/redes-hd.png",
     "tech": []
   },
   {
@@ -166,7 +206,7 @@ export const certificates = [
     "issuer": "Cisco Networking Academy",
     "date": "13/10/2024",
     "file": "/certificados/iot-cisco.pdf",
-    "image": "/certificados/iot-cisco.png",
+    "image": "/certificados/iot-cisco-hd.png",
     "tech": []
   },
   {
@@ -175,7 +215,7 @@ export const certificates = [
     "issuer": "SENATI · Cisco Networking Academy",
     "date": "21/09/2024",
     "file": "/certificados/iot-senati.pdf",
-    "image": "/certificados/iot-senati.png",
+    "image": "/certificados/iot-senati-hd.png",
     "tech": []
   }
 ];

@@ -124,3 +124,19 @@
     height: 60px;
   }
 }
+
+/* Retrato amplio y centrado, conservando la proporción original. */
+.about-heading { text-align: center; }
+.about-avatar {
+  width: min(320px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border: 2px solid #28789a;
+  box-shadow: 0 0 0 10px #00d8ff06, 0 18px 55px #0005;
+}
+.about-avatar img { object-position: center; }
+@media (max-width: 700px) {
+  .about-heading { flex-direction: column; align-items: center; gap: 30px; }
+  .about-avatar { width: min(270px, 85%); height: auto; }
+}

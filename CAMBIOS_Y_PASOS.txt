@@ -1,0 +1,16 @@
+ACTUALIZACION DEL PORTAFOLIO
+
+1. Haz una copia de tu carpeta actual.
+2. Copia las carpetas src y public de este ZIP dentro de C:\laragon\www\Portfolio-Piero y acepta reemplazar los archivos.
+3. Desde Git Bash, dentro de tu proyecto, ejecuta npm run dev.
+4. Abre la direccion que muestre la terminal.
+
+Incluye foto centrada de 320 px en escritorio y hasta 270 px en movil; diez certificados con visor, zoom, Escape y descarga individual. Los cuatro PDF Oracle estan en public/certificados/oracle-*.pdf.
+
+La imagen ampliada se genera a 216 ppp desde cada PDF; la nitidez depende del archivo original.
+
+RECOMENDACIONES PARA LA SIGUIENTE ETAPA
+- Anadir capturas reales y casos de estudio de FitCoach, AppEscuela y reconocimiento de placas.
+- Explicar tu rol, tecnologias, problema y resultado en cada proyecto.
+- Anadir un CV actualizado para descargar y un contacto visible.
+- Incorporar filtros por institucion o tecnologia si crece la lista de certificados.
