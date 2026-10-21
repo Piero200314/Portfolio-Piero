@@ -1,16 +1,15 @@
 import emailjs from "@emailjs/browser";
 
-// Estas variables son públicas en Vite. No colocar contraseñas ni claves privadas.
-export function obtenerConfiguracionEmailJS(env = import.meta.env ?? {}) {
-  const config = {
-    serviceId: env.VITE_EMAILJS_SERVICE_ID?.trim(),
-    templateId: env.VITE_EMAILJS_TEMPLATE_ID?.trim(),
-    publicKey: env.VITE_EMAILJS_PUBLIC_KEY?.trim(),
-  };
-  if (Object.values(config).some((value) => !value || value.startsWith("REEMPLAZAR_"))) {
-    throw new Error("EMAILJS_NOT_CONFIGURED");
-  }
-  return config;
+// Identificadores públicos de EmailJS para el formulario del portafolio.
+// No añadir contraseñas ni claves privadas a este archivo.
+const EMAILJS_PUBLIC_CONFIG = Object.freeze({
+  serviceId: "service_spcyn7q",
+  templateId: "template_ahwcspk",
+  publicKey: "2Qt4sOpix23dioNsT",
+});
+
+export function obtenerConfiguracionEmailJS() {
+  return { ...EMAILJS_PUBLIC_CONFIG };
 }
 
 export function prepararMensajeContacto(formulario) {
