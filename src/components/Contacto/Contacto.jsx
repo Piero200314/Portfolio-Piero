@@ -1,31 +1,10 @@
-import { useState } from "react";
+import useContactoEmailJS from "../../hooks/useContactoEmailJS";
 import { profile } from "../../data/portfolio";
 import Icon from "../Icon";
 import "./Contacto.css";
 
 export default function Contacto() {
-  const [formulario, setFormulario] = useState({
-    nombre: "",
-    email: "",
-    mensaje: "",
-  });
-  const [response, setResponse] = useState("");
-  const manejarCambio = (event) => {
-    const { name, value } = event.target;
-    setFormulario((current) => ({ ...current, [name]: value }));
-    setResponse("");
-  };
-  const manejarEnvio = (event) => {
-    event.preventDefault();
-    if (!formulario.nombre.trim() || !formulario.mensaje.trim()) {
-      setResponse("Completa tu nombre y mensaje.");
-      return;
-    }
-    setResponse(
-      `Gracias, ${formulario.nombre.trim()}. La prueba del formulario fue correcta. El mensaje no se ha enviado.`,
-    );
-    setFormulario({ nombre: "", email: "", mensaje: "" });
-  };
+  const { formulario, cargando, response, manejarCambio, manejarEnvio } = useContactoEmailJS();
   return (
     <section id="contacto" className="pf-section pf-container">
       <p className="pf-eyebrow">05 / CONTACTO</p>
@@ -63,7 +42,7 @@ export default function Contacto() {
             <span /> Lima, Perú
           </div>
         </div>
-        <form className="contact-form" onSubmit={manejarEnvio}>
+        <form className="contact-form" onSubmit={manejarEnvio} aria-busy={cargando}>
           <p className="contact-form-label">
             <Icon name="mail" /> Escribe tu mensaje
           </p>
@@ -77,6 +56,7 @@ export default function Contacto() {
             autoComplete="name"
             maxLength={100}
             required
+            disabled={cargando}
           />
           <label htmlFor="email">Correo electrónico</label>
           <input
@@ -89,6 +69,7 @@ export default function Contacto() {
             autoComplete="email"
             maxLength={150}
             required
+            disabled={cargando}
           />
           <label htmlFor="mensaje">Mensaje</label>
           <textarea
@@ -100,12 +81,13 @@ export default function Contacto() {
             rows={4}
             maxLength={3000}
             required
+            disabled={cargando}
           />
-          <button type="submit" className="pf-button">
-            Probar formulario <Icon name="arrow" />
+          <button type="submit" className="pf-button" disabled={cargando}>
+            {cargando ? "Enviando..." : "Enviar mensaje"} <Icon name="arrow" />
           </button>
           <p className="form-notice">
-            Formulario de demostración. Los mensajes no se envían.
+            Usaré tu nombre y correo para responder a tu mensaje.
           </p>
           <p className="form-response" role="status">
             {response}

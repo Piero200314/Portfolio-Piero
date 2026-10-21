@@ -2,6 +2,7 @@ import { useState } from "react";
 import { projects } from "../../data/portfolio";
 import TechLogo from "../TechLogo";
 import Icon from "../Icon";
+import ProjectDetails from "./ProjectDetails";
 import "./Proyectos.css";
 
 function ProjectVisual({ project }) {
@@ -9,16 +10,23 @@ function ProjectVisual({ project }) {
   if (project.image)
     return (
       <img
-        className="project-image"
+        className={`project-image ${project.imageFit === "contain" ? "is-contained" : ""}`}
         src={project.image}
-        alt={`Captura de ${project.name}`}
+        alt={project.imageAlt || `Captura de ${project.name}`}
         loading="lazy"
       />
     );
   return (
     <div className={`project-visual visual-${project.id}`} aria-hidden="true">
       <span className="visual-label">{project.type}</span>
-      {project.id === "appescuela" ? (
+      {project.id === "apptareas" ? (
+        <div className="tasks-project-preview">
+          <span className="tasks-project-mark" aria-hidden="true">✓</span>
+          <strong>doit<span>.</span></strong>
+          <span>GESTIÓN DE TAREAS</span>
+          <small>Android · SQLite · Proyecto en equipo</small>
+        </div>
+      ) : project.id === "appescuela" ? (
         <div className="school-preview">
           <div className="school-title">
             <span>AppEscuela</span>
@@ -65,6 +73,7 @@ function ProjectVisual({ project }) {
   );
 }
 export default function Proyectos() {
+  const [selectedProject, setSelectedProject] = useState(null);
   const [filter, setFilter] = useState("Todos");
   const options = ["Todos", "Realizado", "En desarrollo", "Por hacer"];
   const displayed = projects.filter(
@@ -113,15 +122,21 @@ export default function Proyectos() {
               </div>
               <h3>{project.name}</h3>
               <p>{project.description}</p>
+              {project.role && <p className="project-role">{project.role}</p>}
               <div className="project-technologies">
                 {project.tech.map((id) => (
                   <TechLogo key={id} id={id} label />
                 ))}
               </div>
               <div className="project-links">
+                {project.overview && (
+                  <button type="button" className="project-details-button" onClick={() => setSelectedProject(project)} aria-label={`Ver detalles de ${project.name}`}>
+                    Detalles <Icon name="plus" />
+                  </button>
+                )}
                 {project.demo && (
                   <a href={project.demo} target="_blank" rel="noreferrer">
-                    Ver proyecto <Icon name="arrow" />
+                    {project.demoLabel || "Ver proyecto"} <Icon name="arrow" />
                   </a>
                 )}
                 {project.code && (
@@ -130,7 +145,7 @@ export default function Proyectos() {
                     Código
                   </a>
                 )}
-                {!project.demo && !project.code && (
+                {!project.overview && !project.demo && !project.code && (
                   <span>Detalles próximamente</span>
                 )}
               </div>
@@ -157,6 +172,7 @@ export default function Proyectos() {
           Explorar GitHub <Icon name="arrow" />
         </a>
       </div>
+      {selectedProject && <ProjectDetails project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </section>
   );
 }

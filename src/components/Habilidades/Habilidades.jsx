@@ -4,6 +4,7 @@ import TechLogo from "../TechLogo";
 import "./Habilidades.css";
 
 export default function Habilidades() {
+  const [paused, setPaused] = useState(false);
   const [area, setArea] = useState("Todas");
   const areas = ["Todas", "Web", "Diseño", "Software", "Herramientas"];
   return (
@@ -28,18 +29,26 @@ export default function Habilidades() {
             </button>
           ))}
         </div>
-        <div className="skills-grid">
-          {Object.entries(technologies)
-            .filter(([, tech]) => area === "Todas" || tech.area === area)
-            .map(([id, tech]) => (
-              <article className="skill-item" key={id}>
-                <div className="skill-circle">
-                  <TechLogo id={id} />
+        {area === "Todas" && (
+          <button className="skills-motion-toggle" aria-pressed={paused}
+            onClick={() => setPaused((value) => !value)}>
+            {paused ? "Reanudar movimiento" : "Pausar movimiento"}
+          </button>
+        )}
+        <div className={area === "Todas" ? "skills-marquee" : "skills-grid"}>
+          {area === "Todas" ? (
+            <div className={`skills-track${paused ? " is-paused" : ""}`}>
+              {[0, 1].map((copy) => (
+                <div className="skills-group" key={copy} aria-hidden={copy === 1 ? true : undefined}>
+                  {Object.entries(technologies).map(([id, tech]) => (
+                    <SkillItem key={id} id={id} tech={tech} />
+                  ))}
                 </div>
-                <h3>{tech.name}</h3>
-                <p>{tech.level}</p>
-              </article>
-            ))}
+              ))}
+            </div>
+          ) : Object.entries(technologies)
+              .filter(([, tech]) => tech.area === area)
+              .map(([id, tech]) => <SkillItem key={id} id={id} tech={tech} />)}
         </div>
         <p className="skills-note">
           También tengo conocimientos básicos de análisis de datos y comprensión
@@ -47,5 +56,15 @@ export default function Habilidades() {
         </p>
       </div>
     </section>
+  );
+}
+
+function SkillItem({ id, tech }) {
+  return (
+    <article className="skill-item">
+      <div className="skill-circle"><TechLogo id={id} /></div>
+      <h3>{tech.name}</h3>
+      <p>{tech.level}</p>
+    </article>
   );
 }
