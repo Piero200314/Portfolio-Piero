@@ -61,7 +61,7 @@ export default function Navbar() {
           aria-label="Piero Huamani Inicio"
           onClick={() => setIsOpen(false)}
         >
-          piero<span>.</span>
+          <span className="brand-emblem">P<span>↗</span></span><span className="brand-name">PRHB<small>SOFTWARE & DESIGN</small></span>
         </a>
         <div
           id="portfolio-menu"

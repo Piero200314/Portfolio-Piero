@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { projects } from "../../data/portfolio";
+import { projects, projectCaseStudies, projectShowcase } from "../../data/portfolio";
 import TechLogo from "../TechLogo";
 import Icon from "../Icon";
+import ProjectDetails from "./ProjectDetails";
 import "./Proyectos.css";
 
 function ProjectVisual({ project }) {
@@ -9,16 +10,23 @@ function ProjectVisual({ project }) {
   if (project.image)
     return (
       <img
-        className="project-image"
+        className={`project-image ${project.imageFit === "contain" ? "is-contained" : ""}`}
         src={project.image}
-        alt={`Captura de ${project.name}`}
+        alt={project.imageAlt || `Captura de ${project.name}`}
         loading="lazy"
       />
     );
   return (
     <div className={`project-visual visual-${project.id}`} aria-hidden="true">
       <span className="visual-label">{project.type}</span>
-      {project.id === "appescuela" ? (
+      {project.id === "apptareas" ? (
+        <div className="tasks-project-preview">
+          <span className="tasks-project-mark" aria-hidden="true">✓</span>
+          <strong>doit<span>.</span></strong>
+          <span>GESTIÓN DE TAREAS</span>
+          <small>Android · SQLite · Proyecto en equipo</small>
+        </div>
+      ) : project.id === "appescuela" ? (
         <div className="school-preview">
           <div className="school-title">
             <span>AppEscuela</span>
@@ -64,11 +72,12 @@ function ProjectVisual({ project }) {
     </div>
   );
 }
-export default function Proyectos() {
+export default function Proyectos({ paused = false }) {
+  const [selectedProject, setSelectedProject] = useState(null);
   const [filter, setFilter] = useState("Todos");
-  const options = ["Todos", "Realizado", "En desarrollo", "Por hacer"];
+  const options = ["Todos", "Publicado", "Prototipo", "Diseño UX/UI"];
   const displayed = projects.filter(
-    (project) => filter === "Todos" || project.status === filter,
+    (project) => filter === "Todos" || projectShowcase[project.id]?.delivery === filter,
   );
   return (
     <section id="proyectos" className="pf-section pf-container">
@@ -97,7 +106,7 @@ export default function Proyectos() {
       </p>
       <div className="projects-grid">
         {displayed.map((project) => (
-          <article className="project-card" key={project.id}>
+          <article className={`project-card ${project.id === "nexo" ? "project-featured" : ""}`} key={project.id}>
             <ProjectVisual project={project} />
             <div className="project-body">
               <div className="project-meta">
@@ -108,20 +117,29 @@ export default function Proyectos() {
                   <Icon
                     name={project.status === "Realizado" ? "check" : "clock"}
                   />
-                  {project.status}
+                  {projectShowcase[project.id]?.delivery || project.status}
                 </span>
               </div>
+              {project.id === "nexo" && <span className="featured-label">PROYECTO DESTACADO</span>}
               <h3>{project.name}</h3>
+              <p className="project-access">{projectShowcase[project.id]?.access}</p>
               <p>{project.description}</p>
+              {projectCaseStudies[project.id] && <div className="project-personal"><strong>Mi aporte</strong><p>{projectCaseStudies[project.id].contribution}</p></div>}
+              {project.id === "nexo" && <ul className="featured-results">{projectShowcase.nexo.results.map(result => <li key={result}>{result}</li>)}</ul>}
               <div className="project-technologies">
                 {project.tech.map((id) => (
                   <TechLogo key={id} id={id} label />
                 ))}
               </div>
               <div className="project-links">
+                {project.overview && (
+                  <button type="button" className="project-details-button" onClick={() => setSelectedProject(project)} aria-label={`Ver detalles de ${project.name}`}>
+                    Explorar proyecto <Icon name="plus" />
+                  </button>
+                )}
                 {project.demo && (
                   <a href={project.demo} target="_blank" rel="noreferrer">
-                    Ver proyecto <Icon name="arrow" />
+                    {project.demoLabel || "Ver proyecto"} <Icon name="arrow" />
                   </a>
                 )}
                 {project.code && (
@@ -130,7 +148,7 @@ export default function Proyectos() {
                     Código
                   </a>
                 )}
-                {!project.demo && !project.code && (
+                {!project.overview && !project.demo && !project.code && (
                   <span>Detalles próximamente</span>
                 )}
               </div>
@@ -157,6 +175,7 @@ export default function Proyectos() {
           Explorar GitHub <Icon name="arrow" />
         </a>
       </div>
+      {selectedProject && <ProjectDetails paused={paused} project={selectedProject} onClose={() => setSelectedProject(null)} />}
     </section>
   );
 }

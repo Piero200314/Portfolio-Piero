@@ -1,6 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "devicon/devicon.min.css";
+import "./assets/icons/icons.css";
+import "@fontsource-variable/manrope";
+import "@fontsource-variable/space-grotesk";
 import "./index.css";
 import App from "./App.jsx";
 

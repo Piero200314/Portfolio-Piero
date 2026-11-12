@@ -152,3 +152,9 @@
 }
 
 .contact-linkedin{margin-top:20px}.contact-linkedin>i{color:#65bcdf}
+
+.contact-form input:disabled,
+.contact-form textarea:disabled { opacity: .65; cursor: wait; }
+.contact-form .pf-button:disabled { opacity: .7; cursor: wait; transform: none; box-shadow: none; }
+.contact-form .pf-button:disabled .pf-icon { opacity: .5; }
+

@@ -1,7 +1,7 @@
-import { technologies } from "../data/portfolio";
+import { technologies, projectTechnologies } from "../data/portfolio";
 
 export default function TechLogo({ id, label = false }) {
-  const tech = technologies[id];
+  const tech = technologies[id] || projectTechnologies[id];
   if (!tech) return null;
   return (
     <span className="tech-logo" title={tech.name}>

@@ -1,194 +1,93 @@
 import { useEffect, useRef } from "react";
 import "./FondoEspacial.css";
 
-const vertexSource = `attribute vec2 position; void main(){gl_Position=vec4(position,0.0,1.0);}`;
-const fragmentSource = `
-precision highp float;
-uniform vec2 resolution;
-uniform vec2 pointer;
-uniform float time;
-float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}
-float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=mat2(1.6,1.2,-1.2,1.6)*p+2.3;a*=.5;}return v;}
-float stars(vec2 p,float scale,float seed){
-  vec2 q=p*scale;vec2 cell=floor(q);vec2 local=fract(q)-.5;
-  float r=hash(cell+seed);vec2 offset=vec2(hash(cell+2.7+seed),hash(cell+8.1+seed))-.5;
-  float d=length(local-offset*.65);
-  float size=mix(.012,.038,r);
-  float spot=1.-smoothstep(0.,size,d);
-  float halo=.0035/(d+.028);
-  return step(.952,r)*(spot+halo*.17)*(.5+.5*sin(time*.28+r*6.28));
-}
-void main(){
- vec2 uv=(gl_FragCoord.xy-.5*resolution.xy)/resolution.y;
- uv+=pointer*.035;
- float t=time*.018;
- vec2 p=uv*2.4;
- vec2 warp=vec2(fbm(p+vec2(t,-t)),fbm(p+vec2(3.7,-t)));
- float cloud=fbm(p+warp*2.4+vec2(t*.3,0.));
- float veins=pow(max(0.,1.-abs(cloud-.52)*5.),3.);
- float density=smoothstep(.32,.79,cloud);
- float belt=exp(-pow((uv.y+.18*sin(uv.x*2.4)-.05)*2.6,2.));
- float edges=smoothstep(.08,.65,abs(uv.x));
- vec3 color=vec3(.025,.035,.058);
- color+=vec3(.018,.09,.29)*density*belt*1.05;
- color+=vec3(.014,.20,.30)*veins*belt*(.22+edges*.45);
- color+=vec3(.015,.045,.13)*exp(-length(uv-vec2(.35,.05))*2.8);
- float zoom=1.+mod(time*.012,1.)*.12;
- float s=stars(uv/zoom+vec2(t*.035,0.),25.,0.);
- s+=stars(uv/(zoom+.25)-vec2(t*.025,0.),43.,19.)*.45;
- s+=stars(uv/(zoom+.55),64.,37.)*.25;
- color+=vec3(.56,.78,1.)*s*.68;
- float center=1.-.24*exp(-length(uv)*4.);
- color*=center;
- color*=1.-smoothstep(.35,1.2,length(uv))*.45;
- gl_FragColor=vec4(color,1.);
-}`;
-
+// Esfera de energía y campo estelar: un solo canvas 2D, sin imágenes ni WebGL.
 export default function FondoEspacial({ paused }) {
   const canvasRef = useRef(null);
-  const timeRef = useRef(0);
+  const pausedRef = useRef(paused);
+  useEffect(() => { pausedRef.current = paused; }, [paused]);
   useEffect(() => {
     const canvas = canvasRef.current;
-    const gl = canvas.getContext("webgl", {
-      antialias: false,
-      alpha: false,
-      powerPreference: "low-power",
-    });
-    if (!gl) return; // El fondo CSS permanece visible si WebGL no está disponible.
-    const resources = [];
-    const makeShader = (type, source) => {
-      const shader = gl.createShader(type);
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        gl.deleteShader(shader);
-        return null;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let width = 0, height = 0, frame = 0, last = 0, time = 0, visible = true;
+    let seed = 200314;
+    const random = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    const stars = Array.from({ length: 680 }, () => ({ x: random(), y: random(), z: .2 + random(), phase: random() * 6.28 }));
+    const particles = Array.from({ length: 1100 }, () => ({ angle: random() * Math.PI * 2, radius: Math.sqrt(random()), phase: random() * 6.28, size: .4 + random() * 1.3 }));
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      const area = canvas.closest(".hero-section").querySelector(".energy-window").getBoundingClientRect();
+      const origin = canvas.getBoundingClientRect();
+      const cx = area.left - origin.left + area.width / 2;
+      const cy = area.top - origin.top + area.height / 2;
+      const radius = Math.min(area.width, area.height) * .40;
+      // Stars cross the entire hero, not just the energy ring.
+      for (const star of stars) {
+        const x = ((star.x * width + time * 12 * star.z) % (width + 20)) - 10;
+        const y = ((star.y * height + time * 7 * star.z) % (height + 20)) - 10;
+        ctx.globalAlpha = .4 + .5 * (.5 + .5 * Math.sin(time * 1.6 + star.phase));
+        ctx.fillStyle = star.z > .8 ? "#ffffff" : "#c0d0ef";
+        ctx.beginPath(); ctx.arc(x, y, star.z * 1.45, 0, Math.PI * 2); ctx.fill();
+        if (star.z > 1.12) { ctx.fillRect(x - 4, y - .4, 8, .8); ctx.fillRect(x - .4, y - 4, .8, 8); }
       }
-      resources.push(shader);
-      return shader;
-    };
-    const vertex = makeShader(gl.VERTEX_SHADER, vertexSource);
-    const fragment = makeShader(gl.FRAGMENT_SHADER, fragmentSource);
-    if (!vertex || !fragment) {
-      resources.forEach((shader) => gl.deleteShader(shader));
-      return;
-    }
-    const program = gl.createProgram();
-    gl.attachShader(program, vertex);
-    gl.attachShader(program, fragment);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      resources.forEach((shader) => gl.deleteShader(shader));
-      gl.deleteProgram(program);
-      return;
-    }
-    gl.useProgram(program);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-      gl.STATIC_DRAW,
-    );
-    const attribute = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(attribute);
-    gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
-    const uResolution = gl.getUniformLocation(program, "resolution");
-    const uTime = gl.getUniformLocation(program, "time");
-    const uPointer = gl.getUniformLocation(program, "pointer");
-    let frame = 0,
-      previous = 0,
-      rendered = 0,
-      visible = true,
-      lost = false;
-    const pointer = [0, 0];
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const draw = () => {
-      gl.uniform2f(uResolution, canvas.width, canvas.height);
-      gl.uniform1f(uTime, timeRef.current);
-      gl.uniform2f(uPointer, ...pointer);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-    };
-    const resize = () => {
-      const box = canvas.parentElement.getBoundingClientRect();
-      const dpr = Math.min(
-        window.devicePixelRatio || 1,
-        box.width < 700 ? 1 : 1.25,
-      );
-      canvas.width = Math.max(1, Math.round(box.width * dpr));
-      canvas.height = Math.max(1, Math.round(box.height * dpr));
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      draw();
-    };
-    const tick = (stamp) => {
-      if (lost) return;
-      const delta = previous ? Math.min((stamp - previous) / 1000, 0.08) : 0;
-      previous = stamp;
-      if (visible && !document.hidden && !paused && !reduced.matches) {
-        timeRef.current += delta;
-        if (stamp - rendered > 33) {
-          draw();
-          rendered = stamp;
+      ctx.globalAlpha = 1;
+      const glow = ctx.createRadialGradient(cx, cy, radius * .4, cx, cy, radius * 1.6);
+      glow.addColorStop(0, "#0f1c3000"); glow.addColorStop(.46, "#668dc025"); glow.addColorStop(.64, "#668dc050"); glow.addColorStop(1, "#668dc000");
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, width, Math.min(height, cy + radius * 2));
+      // Rotating particle globe: depth changes brightness and projected position.
+      for (const p of particles) {
+        const angle = p.angle + time * .32;
+        const x = Math.cos(angle) * p.radius;
+        const depth = Math.sin(angle);
+        const y = Math.sin(p.phase) * Math.sqrt(1 - x * x);
+        ctx.globalAlpha = .18 + (depth + 1) * .22;
+        ctx.fillStyle = depth > .4 ? "#c0d0ef" : "#668dc0";
+        ctx.beginPath(); ctx.arc(cx + x * radius * .96, cy + y * radius * .96, p.size, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      // Three independent electric filaments create a visibly evolving silhouette.
+      ctx.globalCompositeOperation = "lighter";
+      for (let layer = 0; layer < 3; layer++) {
+        ctx.beginPath();
+        for (let i = 0; i <= 300; i++) {
+          const angle = i / 300 * Math.PI * 2;
+          const turbulence = Math.sin(angle * 17 + time * 3.8 + layer) * 4 + Math.sin(angle * 43 - time * 5.2 + layer * 2) * 2.8 + Math.sin(angle * 7 + time * 2) * 5;
+          const r = radius + turbulence + layer * 3;
+          const x = cx + Math.cos(angle) * r, y = cy + Math.sin(angle) * r;
+          if (!i) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
+        ctx.closePath(); ctx.strokeStyle = ["#668dc0", "#a8caff", "#e5efff"][layer];
+        ctx.lineWidth = [7, 3, 1.4][layer]; ctx.shadowColor = "#668dc0"; ctx.shadowBlur = layer === 0 ? 27 : 10; ctx.stroke();
       }
-      if (!paused && !reduced.matches) frame = requestAnimationFrame(tick);
-    };
-    const move = (event) => {
-      if (paused || reduced.matches) return;
+      ctx.shadowBlur = 0;
+      for (let i = 0; i < 45; i++) {
+        const a = i * 2.399 + time * (i % 2 ? .6 : -.4);
+        const r = radius + 9 + Math.sin(time * 2 + i) * 12;
+        ctx.fillStyle = "#c0d0ef"; ctx.globalAlpha = .3 + .6 * Math.abs(Math.sin(time + i));
+        ctx.beginPath(); ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 1.5, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+    }
+    function resize() {
       const box = canvas.parentElement.getBoundingClientRect();
-      pointer[0] = (event.clientX - box.left) / box.width - 0.5;
-      pointer[1] = 0.5 - (event.clientY - box.top) / box.height;
-    };
-    const resetPointer = () => {
-      pointer[0] = 0;
-      pointer[1] = 0;
-    };
-    const contextLost = (event) => {
-      event.preventDefault();
-      lost = true;
-      cancelAnimationFrame(frame);
-      canvas.style.opacity = "0";
-    };
-    const motionChange = () => {
-      cancelAnimationFrame(frame);
-      previous = 0;
-      if (!paused && !reduced.matches) frame = requestAnimationFrame(tick);
-      else draw();
-    };
-    const observer = new ResizeObserver(resize);
-    observer.observe(canvas.parentElement);
-    const visibility = new IntersectionObserver(
-      (entries) => {
-        visible = entries[0].isIntersecting;
-      },
-      { threshold: 0 },
-    );
-    visibility.observe(canvas);
-    const parent = canvas.parentElement.parentElement;
-    parent.addEventListener("pointermove", move);
-    parent.addEventListener("pointerleave", resetPointer);
-    canvas.addEventListener("webglcontextlost", contextLost);
-    reduced.addEventListener("change", motionChange);
-    canvas.style.opacity = "1";
-    resize();
-    frame = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-      visibility.disconnect();
-      parent.removeEventListener("pointermove", move);
-      parent.removeEventListener("pointerleave", resetPointer);
-      canvas.removeEventListener("webglcontextlost", contextLost);
-      reduced.removeEventListener("change", motionChange);
-      gl.deleteBuffer(buffer);
-      gl.deleteProgram(program);
-      resources.forEach((shader) => gl.deleteShader(shader));
-    };
-  }, [paused]);
-  return (
-    <div className="space-background" aria-hidden="true">
-      <canvas ref={canvasRef} />
-    </div>
-  );
+      width = box.width; height = box.height;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw();
+    }
+    function tick(now) {
+      frame = requestAnimationFrame(tick);
+      if (now - last < 1000 / 30) return;
+      const elapsed = Math.min((now - last) / 1000, .06); last = now;
+      if (!visible || document.hidden || pausedRef.current) return;
+      time += elapsed; canvas.dataset.motionTime = time.toFixed(3); draw();
+    }
+    const resizeObserver = new ResizeObserver(resize); resizeObserver.observe(canvas.parentElement);
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }); observer.observe(canvas);
+    resize(); frame = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); resizeObserver.disconnect(); };
+  }, []);
+  return <div className="energy-cosmos" aria-hidden="true"><canvas ref={canvasRef}/></div>;
 }

@@ -35,7 +35,7 @@ export default function Certificados() {
                 {cert.image ? (
                   <button type="button" className="certificate-image-button" onClick={() => openCertificate(cert)} aria-label={`Ampliar certificado de ${cert.title}`}>
                   <img
-                    src={cert.image}
+                    src={cert.thumbnail || cert.image}
                     alt={`Certificado de ${cert.title}`}
                     loading="lazy"
                     decoding="async"

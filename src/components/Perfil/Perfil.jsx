@@ -9,36 +9,26 @@ export default function Perfil() {
       <div className="about-grid">
         <div className="about-heading">
           <h2>
-            Una mirada creativa.
+            Del diseño al código.
             <br />
-            <span>Una base técnica.</span>
+            <span>Una visión integral.</span>
           </h2>
-          <div className="about-avatar">
-            {profile.photo ? (
-              <img src={profile.photo} alt="Piero Huamani" />
-            ) : (
-              <span aria-label="Iniciales de Piero Huamani">
-                PH<span>.</span>
-              </span>
-            )}
-          </div>
+
         </div>
+        <figure className="about-portrait"><img src={profile.photo} alt="Piero Huamani, estudiante de Ingeniería de Software e Inteligencia Artificial" loading="lazy" width="1254" height="1254"/><figcaption><strong>Piero Huamani</strong><span>Ingeniería de Software e IA · SENATI</span></figcaption></figure>
         <div className="about-copy">
           <p className="about-intro">
-            Hola, soy Piero.
-            <br />
-            Me interesa cómo se siente una interfaz y cómo funciona por dentro.
+            Diseño interfaces y desarrollo las funciones que les dan vida.
           </p>
           <p>
-            Estudio Desarrollo de Software y construyo mi experiencia a través
-            de proyectos personales y académicos. Combino el diseño UX/UI con el
-            desarrollo de aplicaciones web y exploro soluciones con Python y
-            visión artificial.
+            Mi trabajo conecta la parte visual de una aplicación con su lógica y sus datos.
+            Diseño pantallas en Figma, construyo componentes y conecto interfaces con APIs
+            y bases de datos para dar forma a flujos completos.
           </p>
           <p>
-            Actualmente participo en el diseño UX/UI de FitCoach. También estoy
-            aprendiendo React, practicando control de versiones y fortaleciendo
-            mis conocimientos básicos de análisis de datos.
+            En los proyectos en equipo he participado tanto en diseño y frontend como
+            en modelos y acceso a datos. Esa experiencia me ayuda a entender cómo se
+            relacionan las distintas partes de un sistema y a colaborar en su integración.
           </p>
           <a href="#proyectos" className="about-link">
             Conoce mi trabajo <Icon name="arrow" />

@@ -1,0 +1,19 @@
+PLANTILLAS DE CORREO PRHB
+
+Son plantillas HTML preparadas; no se han cambiado las plantillas de tu cuenta EmailJS.
+
+NOTIFICACIÓN RECIBIDA
+1. En EmailJS abre el template existente del formulario.
+2. En su editor HTML pega 01-notificacion.html.
+3. Conserva To Email con tu dirección fija (no {{email}}).
+4. Reply-To: {{email}}. Subject: Nuevo contacto de {{nombre}} | PRHB.
+5. Las variables nombre, email y mensaje ya son enviadas por el formulario.
+6. Guarda y prueba enviando un mensaje propio. Esta entrega no envía mensajes de prueba.
+
+RESPUESTAS SALIENTES
+02-respuesta.html es una plantilla para tus respuestas. Sustituye nombre y respuesta por el contenido que tú redactes. No configura Gmail/Outlook automáticamente ni cambia su botón Responder.
+Si quieres una confirmación automática de recepción, configura una plantilla de autorrespuesta en EmailJS con texto fijo de recepción y sus protecciones. No conectamos envíos a destinatarios arbitrarios desde el portfolio.
+
+ABUSO Y PRIVACIDAD
+En EmailJS limita las solicitudes a tu dominio publicado y activa sus protecciones de spam/cuotas disponibles. La validación y el intervalo de 30 segundos del navegador mejoran el uso normal, pero no sustituyen controles del proveedor o del servidor.
+Usa variables con doble llave; no insertes HTML enviado por visitantes con triple llave.

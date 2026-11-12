@@ -354,3 +354,35 @@
   font-size: 23px;
   font-weight: 500;
 }
+
+/* Proyectos nuevos y ficha de presentación. */
+.project-image.is-contained { object-fit: contain; background: #f2f4f6; padding: 12px; }
+.project-body > .project-role { min-height: 0; margin: -4px 0 20px; font-size: 11px; line-height: 1.7; color: #7edcf1; }
+.project-links { flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.project-details-button { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; min-height: 44px; border: 1px solid #287894; border-radius: 7px; background: #00d8ff0b; color: #90edff; font-size: 11px; }
+.project-details-button:hover { background: #00d8ff20; }
+.visual-apptareas { background: radial-gradient(ellipse at 80% 5%, #1e665b, transparent 65%), linear-gradient(135deg,#0c1d24,#112d39); }
+.tasks-project-preview { display: flex; flex-direction: column; align-items: flex-start; position: relative; gap: 8px; padding-top: 12px; }
+.tasks-project-preview strong { color: #fff; font-size: 55px; line-height: 1; letter-spacing: -3px; }
+.tasks-project-preview strong > span { color: #5ee6c0; }
+.tasks-project-preview > span:not(.tasks-project-mark) { color: #b9eee3; font-size: 9px; letter-spacing: 2px; }
+.tasks-project-preview small { color: #92bfb8; font-size: 10px; }
+.tasks-project-mark { position: absolute; right: 12px; top: 18px; width: 66px; height: 66px; display: grid; place-items: center; border: 1px solid #5ee6c060; border-radius: 18px; color: #5ee6c0; font-size: 42px; transform: rotate(-9deg); }
+.project-dialog { width: min(900px, calc(100vw - 28px)); max-width: none; max-height: calc(100dvh - 32px); padding: 0; border: 1px solid #315572; border-radius: 16px; background: #0e1726; color: #eef5ff; }
+.project-dialog::backdrop { background: #020611df; backdrop-filter: blur(8px); }
+.project-dialog-content { padding: 30px; }
+.project-dialog-content > header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
+.project-dialog-eyebrow { font-size: 10px; letter-spacing: 1.4px; color: #7de9ff; }
+.project-dialog h2 { font-family: "Space Grotesk", sans-serif; font-size: clamp(26px,5vw,36px); line-height: 1.2; margin: 9px 0 0; }
+.project-dialog-close { min-width: 44px; min-height: 44px; border: 1px solid #365370; border-radius: 8px; color: white; background: #17283b; }
+.project-dialog-image { width: 100%; max-height: 430px; object-fit: contain; background: #07111b; border-radius: 10px; margin-bottom: 24px; }
+.project-dialog p, .project-dialog li { color: #b4c4d5; font-size: 14px; line-height: 1.85; }
+.project-dialog h3 { font-size: 17px; margin: 24px 0 10px; }
+.project-dialog ul { padding-left: 22px; }
+.project-dialog .project-dialog-role { color: #7de9ff; font-size: 12px; }
+.project-dialog-tech { display: flex; gap: 16px; flex-wrap: wrap; margin: 24px 0; }
+.project-dialog-tech .tech-logo { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; }
+.project-dialog-tech i { font-size: 20px; }
+.project-dialog .project-dialog-note { font-size: 12px; color: #8fa9bf; }
+.project-dialog footer { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+@media(max-width:700px) { .project-dialog-content { padding: 20px; } .tasks-project-preview { padding-top: 22px; } }
